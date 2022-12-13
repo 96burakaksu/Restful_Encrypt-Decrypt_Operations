@@ -12,10 +12,12 @@ namespace AuthService
 {
     public class JwtAuthenticationManager : IJWTAuthenticationManager
     {
+       
         private readonly byte[] _mySecret = Encoding.ASCII.GetBytes("It is a secret created for Procenne");
         DefinedUsers definedUsers = new DefinedUsers();
-        
-        
+
+       
+
         public string Authenticate(string key, string pass)
         {
             if(!definedUsers.users.Any(x => x.Key == key && x.Value == pass))

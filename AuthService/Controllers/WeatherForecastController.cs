@@ -13,6 +13,8 @@ namespace AuthService.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private IJWTAuthenticationManager _jWTAuthenticationManager;
+       
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -20,9 +22,10 @@ namespace AuthService.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IJWTAuthenticationManager jWTAuthenticationManager)
         {
             _logger = logger;
+            _jWTAuthenticationManager = jWTAuthenticationManager;
         }
 
         [HttpGet]
@@ -37,5 +40,24 @@ namespace AuthService.Controllers
             })
             .ToArray();
         }
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] users userss)
+        {
+            var token = _jWTAuthenticationManager.Authenticate(userss.key, userss.pass);
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(token);
+        }
+
+       
+
+    }
+    public class users
+    {
+        public string key { get; set; }
+        public string pass { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthService
@@ -29,7 +30,11 @@ namespace AuthService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
 
             services.AddAuthentication(x => 
             {
@@ -37,18 +42,23 @@ namespace AuthService
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x => 
             {
-                x.RequireHttpsMetadata = false,
-                x.SaveToken = true,
-                x.TokenValidationParameters = new TokenValidationParameters 
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = 
-                }
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("It is a secret created for Procenne")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
             });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthService", Version = "v1" });
             });
+
+            services.AddSingleton<IJWTAuthenticationManager>(new JwtAuthenticationManager());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +74,7 @@ namespace AuthService
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
