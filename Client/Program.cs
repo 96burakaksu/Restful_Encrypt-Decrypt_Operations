@@ -1,4 +1,4 @@
-﻿using Client.DTOs;
+﻿
 using Core;
 using Core.GeneralResult;
 using System;
@@ -27,19 +27,27 @@ namespace Client
             if (result.Success)
             {
                 token = result.Data;
+             var   a= _apiConnet.GetAll(token);
                 tekraral:
-                Console.Write(" Encrpt için 1'e Decripty için 2'ye ");
+                Console.WriteLine(" Encrpt için 1'e Decripty için 2'ye ");
 
                 Console.Write("İşlem:");
                 var islem = Console.ReadLine();
                 switch (islem)
                 {
                     case "1":
-                        Console.WriteLine("Encripto");
-                        break;
+                        {
+                            Console.WriteLine("Encripto");
+                            _apiConnet.GetAll(token);
+                            goto tekraral;
+
+
+                        }
                     case "2":
                         Console.WriteLine("Decripto");
-                        break;
+                        _apiConnet.GetAll(token);
+                        goto tekraral;
+                       
                     default:
                         Console.WriteLine("Yanlış bir operatör girdiniz. Tekrar deneyin.");
                         goto tekraral;
@@ -49,12 +57,12 @@ namespace Client
             }
             else
             {
-                Console.Write(result.Message);
-                Console.Write("Yeniden Griniz");
+                Console.WriteLine(result.Message);
+                Console.WriteLine("Yeniden Griniz");
                 goto BasaDon;
             }
 
-            Console.ReadLine();
+
         }
     }
 
