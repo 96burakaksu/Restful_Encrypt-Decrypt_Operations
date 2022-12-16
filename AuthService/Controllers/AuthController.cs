@@ -1,6 +1,7 @@
 ﻿using AuthService.DTOs;
 using Core;
 using Core.GeneralResult;
+using CryptoService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,13 +18,13 @@ namespace AuthService.Controllers
     public class AuthController : ControllerBase
     {
         private IJWTAuthenticationManager _jWTAuthenticationManager;
-        private readonly IConfiguration _config;
+        private ICryptoService _criptoService;
 
-     
-        public AuthController(IJWTAuthenticationManager jWTAuthenticationManager, IConfiguration config)
+
+        public AuthController(IJWTAuthenticationManager jWTAuthenticationManager, ICryptoService criptoService)
         {
             _jWTAuthenticationManager = jWTAuthenticationManager;
-            _config = config;
+            _criptoService = criptoService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -41,13 +42,23 @@ namespace AuthService.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public IActionResult Deneme()
+        [HttpPost]
+        public IActionResult Encripto(CriptoRequest request)
         {
-            var users = new DataResult<string> { Data = "yalan dolan" };
-            return Ok(users);
+            var result = new DataResult<byte[]>();
+            if (request.IsEncrypt)
+            {
+               result= _criptoService.Encrypt(request);
+            }
+            else
+            {
+               result= _criptoService.Decrypt(request);
+            }
+            return Ok(result);
+            
         }
 
+     
     }
   
 

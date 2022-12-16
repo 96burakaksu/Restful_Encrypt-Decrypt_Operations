@@ -1,3 +1,5 @@
+using CryptoService.Classes;
+using CryptoService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,13 +49,14 @@ namespace AuthService
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("It is a secret created for Procenne")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtToken:SecretKey"])),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
 
                     ValidIssuer = Configuration["JwtToken:Issuer"],
-                    ValidAudience = Configuration["JwtToken:Issuer"]
+                    ValidAudience = Configuration["JwtToken:Issuer"],
+                    ClockSkew = TimeSpan.Zero
 
                 };
             });
@@ -63,6 +66,8 @@ namespace AuthService
             });
 
             services.AddSingleton<IJWTAuthenticationManager>(new JwtAuthenticationManager(Configuration));
+            services.AddSingleton<ICryptoService>(new CriptoService());
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

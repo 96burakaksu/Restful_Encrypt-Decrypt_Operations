@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{BABD7296-9FCB-4AD6-9ED8-5024313A4514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{5527BE44-D585-404C-B13F-674B673C740A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{5527BE44-D585-404C-B13F-674B673C740A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CriptoService", "CriptoService\CriptoService.csproj", "{88E1D6F1-92AA-4E4F-8CE4-D32B02410BCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoService", "CryptoService\CryptoService.csproj", "{3A5621E6-6460-40EE-99F8-989533F3718E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{5527BE44-D585-404C-B13F-674B673C740A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5527BE44-D585-404C-B13F-674B673C740A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5527BE44-D585-404C-B13F-674B673C740A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88E1D6F1-92AA-4E4F-8CE4-D32B02410BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88E1D6F1-92AA-4E4F-8CE4-D32B02410BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88E1D6F1-92AA-4E4F-8CE4-D32B02410BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88E1D6F1-92AA-4E4F-8CE4-D32B02410BCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5621E6-6460-40EE-99F8-989533F3718E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5621E6-6460-40EE-99F8-989533F3718E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5621E6-6460-40EE-99F8-989533F3718E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5621E6-6460-40EE-99F8-989533F3718E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,7 +17,7 @@ namespace AuthService
     public class JwtAuthenticationManager : IJWTAuthenticationManager
     {
 
-        private readonly byte[] _mySecret = Encoding.UTF8.GetBytes("It is a secret created for Procenne");
+        
         DefinedUsers definedUsers = new DefinedUsers();
         private readonly IConfiguration _configuration;
         public JwtAuthenticationManager(IConfiguration configuration)
@@ -43,16 +43,15 @@ namespace AuthService
                     {
                     new Claim(ClaimTypes.Name, user.Key)
                     }),
-                    Expires = DateTime.Now.AddMinutes(1),
-                    NotBefore = DateTime.Now,
+                    Expires = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JwtToken:TokenExpiry"])),
                     Issuer = _configuration["JwtToken:Issuer"],
                     Audience = _configuration["JwtToken:Audience"],
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_mySecret), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtToken:SecretKey"])), SecurityAlgorithms.HmacSha256Signature)
 
                 };
 
 
-                //Token üretiyoruz.
+                //Token creating.
            
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 if (token == null)
@@ -65,18 +64,6 @@ namespace AuthService
             return DataResult<string>.Fail(401, "Username or Password cannot be blank");
 
         }
-
-        //private static bool ValidateToken(string authToken)
-        //{
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var validationParameters = GetValidationParameters();
-
-        //    SecurityToken validatedToken;
-        //    IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
-        //    Thread.CurrentPrincipal = principal;
-        //    return true;
-        //}
-
 
     }
 }

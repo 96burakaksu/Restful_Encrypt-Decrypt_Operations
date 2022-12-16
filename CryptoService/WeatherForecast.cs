@@ -1,6 +1,6 @@
 using System;
 
-namespace CriptoService
+namespace CryptoService
 {
     public class WeatherForecast
     {

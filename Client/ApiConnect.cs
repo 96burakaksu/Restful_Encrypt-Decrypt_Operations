@@ -41,13 +41,22 @@ namespace Client
         {
             using (var httpClient = new HttpClient())
             {
+                //httpClient.DefaultRequestHeaders.Accept.Clear();
+                //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                //var response = httpClient.GetAsync("https://localhost:44380/Auth/Validation").GetAwaiter().GetResult();
+                //var responseString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                var endpoint = new Uri("https://localhost:44380/WeatherForecast/Get");
+                //var loginPostJson = JsonSerializer.Serialize(token);
+                HttpContent httpContent = new StringContent(token, Encoding.UTF8, "application/json");
+
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                var response = httpClient.GetAsync("https://localhost:44380/Auth/Deneme").GetAwaiter().GetResult();
-                var responseString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-        
-                return JsonSerializer.Deserialize<DataResult<string>>(responseString);
+                var response = httpClient.PostAsync(endpoint, httpContent).GetAwaiter().GetResult();
+                var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                return JsonSerializer.Deserialize<DataResult<string>>(webResult);
             }
 
         }
