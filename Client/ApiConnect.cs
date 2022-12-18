@@ -57,8 +57,8 @@ namespace Client
                 {
                     var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                    //return JsonSerializer.Deserialize<DataResult<byte[]>>(webResult);
-                    return new DataResult<byte[]>();
+                    return JsonConvert.DeserializeObject<DataResult<byte[]>>(webResult);
+                  
                 }
                 else
                 {
@@ -83,12 +83,11 @@ namespace Client
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                 
-                    var a = JsonConvert.DeserializeObject<DataResult<byte[]>>(webResult);
+
+                    return JsonConvert.DeserializeObject<DataResult<byte[]>>(webResult);
                     //var a = JsonSerializer.Deserialize<DataResult<byte[]>>(webResult);
-                    var c = new DataResult<byte[]>();
-                    c = (DataResult<byte[]>)JsonConvert.DeserializeObject(webResult);
-                    return c;
+            
+                    
                 }
                 else
                 {

@@ -14,6 +14,7 @@ namespace Client
 
         static void Main(string[] args)
         {
+            UnicodeEncoding ByteConverter = new UnicodeEncoding();
             string token = "";
         BasaDon:
             Users loginPost = new Users();
@@ -39,11 +40,11 @@ namespace Client
                         {
                             Console.WriteLine("Encripto edilecek metini girin :");
                            var encriptData= Console.ReadLine();
-                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data= encriptData };
+                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data= ByteConverter.GetBytes(encriptData) };
                            var resultEnc= _apiConnet.GetEncription(encriptDataByte,token);
                            if(resultEnc.Success)
                             { Console.WriteLine(" EncripliData:");
-                                Console.WriteLine(Encoding.UTF8.GetString(resultEnc.Data));
+                                Console.WriteLine(Convert.ToBase64String(resultEnc.Data));
                             }
                             else
                             {
@@ -57,11 +58,12 @@ namespace Client
                         {
                             Console.WriteLine("Decripto edilecek metini girin :");
                             var encriptData = Console.ReadLine();
-                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data =encriptData };
+                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data = ByteConverter.GetBytes(encriptData) };
                             var resultEnc = _apiConnet.GetDescription(encriptDataByte, token);
                             if (resultEnc.Success)
                             {
                                 Console.WriteLine(" DecriptoData:");
+                                Console.WriteLine(Convert.ToBase64String(resultEnc.Data));
                                 Console.WriteLine(Encoding.UTF8.GetString(resultEnc.Data));
                             }
                             else

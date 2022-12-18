@@ -38,7 +38,7 @@ namespace CryptoService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptoService", Version = "v1" });
             });
-            services.AddTransient<ICryptoService, CriptoService>();
+            services.AddSingleton<ICryptoService, CriptoService>();
            
         }
 
