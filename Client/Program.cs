@@ -16,7 +16,7 @@ namespace Client
         {
             UnicodeEncoding ByteConverter = new UnicodeEncoding();
             string token = "";
-        BasaDon:
+            BasaDon:
             Users loginPost = new Users();
             Console.Write("Key: ");
             loginPost.Key = Console.ReadLine();
@@ -30,25 +30,35 @@ namespace Client
                 token = result.Data;
          
                 tekraral:
-                Console.WriteLine(" Encrpt için 1'e Decripty için 2'ye ");
+                Console.WriteLine(" Press 1 for Encrypt and 2 for Decrypt ");
 
-                Console.Write("İşlem:");
-                var islem = Console.ReadLine();
-                switch (islem)
+                Console.Write("Process: ");
+                var process = Console.ReadLine();
+                switch (process)
                 {
                     case "1":
                         {
-                            Console.WriteLine("Encripto edilecek metini girin :");
-                           var encriptData= Console.ReadLine();
-                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data= ByteConverter.GetBytes(encriptData) };
-                           var resultEnc= _apiConnet.GetEncription(encriptDataByte,token);
+                            Console.WriteLine("Enter the text to be encrypted:");
+                           var encryptData= Console.ReadLine();
+                            CriptoDataRequest encryptDataByte = new CriptoDataRequest { Data= encryptData };
+                           var resultEnc= _apiConnet.GetEncription(encryptDataByte,token);
                            if(resultEnc.Success)
-                            { Console.WriteLine(" EncripliData:");
-                                Console.WriteLine(Convert.ToBase64String(resultEnc.Data));
+                            { Console.WriteLine(" Encrypted data:");
+                                Console.WriteLine(resultEnc.Data);
                             }
                             else
                             {
-                                Console.WriteLine(resultEnc.Message);
+                                if (resultEnc.StatusCode == 401)
+                                {
+                                    Console.WriteLine("Your Session Period has expired");
+                                    goto BasaDon;
+                                }
+                                else if(resultEnc.StatusCode == 400)
+                                {
+                                    Console.WriteLine("Token Not Sent");
+                                    goto BasaDon;
+                                }
+                               
                             }
                             goto tekraral;
 
@@ -56,24 +66,32 @@ namespace Client
                         }
                     case "2":
                         {
-                            Console.WriteLine("Decripto edilecek metini girin :");
-                            var encriptData = Console.ReadLine();
-                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data = ByteConverter.GetBytes(encriptData) };
-                            var resultEnc = _apiConnet.GetDescription(encriptDataByte, token);
+                            Console.WriteLine("Enter the text to be decrypted:");
+                            var encryptData = Console.ReadLine();
+                            CriptoDataRequest encryptDataByte = new CriptoDataRequest { Data = encryptData };
+                            var resultEnc = _apiConnet.GetDescription(encryptDataByte, token);
                             if (resultEnc.Success)
                             {
-                                Console.WriteLine(" DecriptoData:");
-                                Console.WriteLine(Convert.ToBase64String(resultEnc.Data));
-                                Console.WriteLine(Encoding.UTF8.GetString(resultEnc.Data));
+                                Console.WriteLine(" Decrypted Data:");
+                                Console.WriteLine(resultEnc.Data);
                             }
                             else
                             {
-                                Console.WriteLine(resultEnc.Message);
+                                if (resultEnc.StatusCode == 401)
+                                {
+                                    Console.WriteLine("Your Session Period has expired");
+                                    goto BasaDon;
+                                }
+                                else if (resultEnc.StatusCode == 400)
+                                {
+                                    Console.WriteLine("Token Not Sent");
+                                    goto BasaDon;
+                                }
                             }
                             goto tekraral;
                         }
                     default:
-                        Console.WriteLine("Yanlış bir operatör girdiniz. Tekrar deneyin.");
+                        Console.WriteLine("You entered an incorrect operator. Try again.");
                         goto tekraral;
                 }
 
@@ -82,7 +100,7 @@ namespace Client
             else
             {
                 Console.WriteLine(result.Message);
-                Console.WriteLine("Yeniden Griniz");
+                Console.WriteLine("Re-enter");
                 goto BasaDon;
             }
 

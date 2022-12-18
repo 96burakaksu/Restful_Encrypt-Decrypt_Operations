@@ -39,7 +39,7 @@ namespace Client
             }
            
         }
-        public  DataResult<byte[]> GetDescription(CriptoDataRequest request,string token)
+        public  DataResult<string> GetDescription(CriptoDataRequest request,string token)
         {
             using (var httpClient = new HttpClient())
             {
@@ -57,17 +57,17 @@ namespace Client
                 {
                     var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                    return JsonConvert.DeserializeObject<DataResult<byte[]>>(webResult);
+                    return JsonConvert.DeserializeObject< DataResult<string >> (webResult);
                   
                 }
                 else
                 {
-                    return new DataResult<byte[]> { Success = false, Message = response.RequestMessage.ToString(), Data = null };
+                    return new DataResult<string> { Success = false, Message = response.RequestMessage.ToString(), Data = null,StatusCode = (int)response.StatusCode };
                 }
             }
 
         }
-        public DataResult<byte[]> GetEncription(CriptoDataRequest request,string token)
+        public DataResult<string> GetEncription(CriptoDataRequest request,string token)
         {
             using (var httpClient = new HttpClient())
             {
@@ -84,14 +84,14 @@ namespace Client
                 {
                     var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                    return JsonConvert.DeserializeObject<DataResult<byte[]>>(webResult);
-                    //var a = JsonSerializer.Deserialize<DataResult<byte[]>>(webResult);
+                    return JsonConvert.DeserializeObject<DataResult<string>>(webResult);
+                 
             
-                    
+                  
                 }
                 else
                 {
-                    return new DataResult<byte[]> { Success = false, Message = response.RequestMessage.ToString(), Data = null };
+                    return new DataResult<string> { Success = false, Message = response.RequestMessage.ToString(), Data = null,StatusCode=(int)response.StatusCode };
                 }
             }
 

@@ -9,7 +9,7 @@ namespace Core
 
     public class CriptoDataRequest
     {
-        public byte[] Data { get; set; }
+        public string Data { get; set; }
        
     }
 }

@@ -9,7 +9,7 @@ namespace CryptoService.Interfaces
 {
     public interface ICryptoService
     {
-        DataResult<byte[]> Encrypt(CriptoDataRequest request);
-        DataResult<byte[]> Decrypt(CriptoDataRequest request);
+        DataResult<string> Encrypt(CriptoDataRequest request);
+        DataResult<string> Decrypt(CriptoDataRequest request);
     }
 }

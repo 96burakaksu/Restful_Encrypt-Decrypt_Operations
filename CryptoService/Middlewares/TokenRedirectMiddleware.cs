@@ -42,8 +42,9 @@ namespace CryptoService.Middlewares
                     }
                     else
                     {
-                        httpContext.Response.StatusCode = 400;
-                        httpContext.Request.Headers.Add("result", "Missing requeired keys !");
+                        httpContext.Response.Headers.Add("Message", "OturumSüresiSonlanmıştır");
+                        httpContext.Response.StatusCode = 401;
+             
                                  await httpContext.Response.WriteAsync("Missing requeired keys !");
                         //await _next.Invoke(httpContext);
                         return;
