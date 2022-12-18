@@ -1,4 +1,4 @@
-﻿using AuthService.DTOs;
+﻿
 using Core;
 using Core.GeneralResult;
 using System;
@@ -11,5 +11,6 @@ namespace AuthService
     public interface IJWTAuthenticationManager
     {
         DataResult<string> Authenticate(Users user);
+
     }
 }

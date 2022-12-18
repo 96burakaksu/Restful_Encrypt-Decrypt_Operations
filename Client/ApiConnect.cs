@@ -1,13 +1,14 @@
 ﻿
 using Core;
 using Core.GeneralResult;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
+
 using System.Threading.Tasks;
 
 namespace Client
@@ -26,37 +27,73 @@ namespace Client
             using (var httpClient = new HttpClient())
             {
                 var endpoint = new Uri("https://localhost:44380/Auth/Authenticate");
-                var loginPostJson = JsonSerializer.Serialize(_user);
+                var loginPostJson = JsonConvert.SerializeObject(_user);
                 HttpContent httpContent = new StringContent(loginPostJson, Encoding.UTF8, "application/json");
 
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = httpClient.PostAsync(endpoint, httpContent).GetAwaiter().GetResult();
-                var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-              return JsonSerializer.Deserialize<DataResult<string>>(webResult);
+                string webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                //return new DataResult<byte[]>();
+              return JsonConvert.DeserializeObject<DataResult<string>>(webResult);
             }
            
         }
-        public DataResult<string> GetAll(string token)
+        public  DataResult<byte[]> GetDescription(CriptoDataRequest request,string token)
         {
             using (var httpClient = new HttpClient())
             {
-                //httpClient.DefaultRequestHeaders.Accept.Clear();
-                //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                //var response = httpClient.GetAsync("https://localhost:44380/Auth/Validation").GetAwaiter().GetResult();
-                //var responseString = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                var endpoint = new Uri("https://localhost:44380/WeatherForecast/Get");
-                //var loginPostJson = JsonSerializer.Serialize(token);
-                HttpContent httpContent = new StringContent(token, Encoding.UTF8, "application/json");
-
+                var endpoint = new Uri("https://localhost:44370/Cryption/Decripto");
+                var paramater = JsonConvert.SerializeObject(request);
+                HttpContent httpContent = new StringContent(paramater, Encoding.UTF8, "application/json");
+                httpContent.Headers.Add("token", token);
+                //httpContent.Headers.Add("request", paramater);
+                
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
                 var response = httpClient.PostAsync(endpoint, httpContent).GetAwaiter().GetResult();
-                var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                return JsonSerializer.Deserialize<DataResult<string>>(webResult);
+                    //return JsonSerializer.Deserialize<DataResult<byte[]>>(webResult);
+                    return new DataResult<byte[]>();
+                }
+                else
+                {
+                    return new DataResult<byte[]> { Success = false, Message = response.RequestMessage.ToString(), Data = null };
+                }
+            }
+
+        }
+        public DataResult<byte[]> GetEncription(CriptoDataRequest request,string token)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri("https://localhost:44370/Cryption/Encripto");
+                var paramater = JsonConvert.SerializeObject(request);
+                HttpContent httpContent = new StringContent(paramater, Encoding.UTF8, "application/json");
+                httpContent.Headers.Add("token", token);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response =   httpClient.PostAsync(endpoint, httpContent).GetAwaiter().GetResult();
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                 
+                    var a = JsonConvert.DeserializeObject<DataResult<byte[]>>(webResult);
+                    //var a = JsonSerializer.Deserialize<DataResult<byte[]>>(webResult);
+                    var c = new DataResult<byte[]>();
+                    c = (DataResult<byte[]>)JsonConvert.DeserializeObject(webResult);
+                    return c;
+                }
+                else
+                {
+                    return new DataResult<byte[]> { Success = false, Message = response.RequestMessage.ToString(), Data = null };
+                }
             }
 
         }

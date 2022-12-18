@@ -27,7 +27,7 @@ namespace Client
             if (result.Success)
             {
                 token = result.Data;
-             var   a= _apiConnet.GetAll(token);
+         
                 tekraral:
                 Console.WriteLine(" Encrpt için 1'e Decripty için 2'ye ");
 
@@ -37,17 +37,39 @@ namespace Client
                 {
                     case "1":
                         {
-                            Console.WriteLine("Encripto");
-                            _apiConnet.GetAll(token);
+                            Console.WriteLine("Encripto edilecek metini girin :");
+                           var encriptData= Console.ReadLine();
+                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data= encriptData };
+                           var resultEnc= _apiConnet.GetEncription(encriptDataByte,token);
+                           if(resultEnc.Success)
+                            { Console.WriteLine(" EncripliData:");
+                                Console.WriteLine(Encoding.UTF8.GetString(resultEnc.Data));
+                            }
+                            else
+                            {
+                                Console.WriteLine(resultEnc.Message);
+                            }
                             goto tekraral;
 
 
                         }
                     case "2":
-                        Console.WriteLine("Decripto");
-                        _apiConnet.GetAll(token);
-                        goto tekraral;
-                       
+                        {
+                            Console.WriteLine("Decripto edilecek metini girin :");
+                            var encriptData = Console.ReadLine();
+                            CriptoDataRequest encriptDataByte = new CriptoDataRequest { Data =encriptData };
+                            var resultEnc = _apiConnet.GetDescription(encriptDataByte, token);
+                            if (resultEnc.Success)
+                            {
+                                Console.WriteLine(" DecriptoData:");
+                                Console.WriteLine(Encoding.UTF8.GetString(resultEnc.Data));
+                            }
+                            else
+                            {
+                                Console.WriteLine(resultEnc.Message);
+                            }
+                            goto tekraral;
+                        }
                     default:
                         Console.WriteLine("Yanlış bir operatör girdiniz. Tekrar deneyin.");
                         goto tekraral;

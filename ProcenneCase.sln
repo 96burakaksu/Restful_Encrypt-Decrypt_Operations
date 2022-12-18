@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{5527BE44-D585-404C-B13F-674B673C740A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoService", "CryptoService\CryptoService.csproj", "{3A5621E6-6460-40EE-99F8-989533F3718E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoService", "CryptoService\CryptoService.csproj", "{3A5621E6-6460-40EE-99F8-989533F3718E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
