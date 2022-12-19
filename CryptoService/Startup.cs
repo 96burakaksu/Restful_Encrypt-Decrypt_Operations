@@ -1,3 +1,4 @@
+
 using CryptoService.Classes;
 using CryptoService.Extensions;
 using CryptoService.Interfaces;
@@ -60,10 +61,7 @@ namespace CryptoService
             app.UseAuthorization();
 
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
+            
             app.UseTokenRedirect(); 
             app.UseEndpoints(endpoints =>
             {

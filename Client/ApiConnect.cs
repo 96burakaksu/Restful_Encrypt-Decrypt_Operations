@@ -34,7 +34,6 @@ namespace Client
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = httpClient.PostAsync(endpoint, httpContent).GetAwaiter().GetResult();
                 string webResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                //return new DataResult<byte[]>();
               return JsonConvert.DeserializeObject<DataResult<string>>(webResult);
             }
            
@@ -47,7 +46,6 @@ namespace Client
                 var paramater = JsonConvert.SerializeObject(request);
                 HttpContent httpContent = new StringContent(paramater, Encoding.UTF8, "application/json");
                 httpContent.Headers.Add("token", token);
-                //httpContent.Headers.Add("request", paramater);
                 
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

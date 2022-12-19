@@ -47,7 +47,7 @@ namespace CryptoService.Classes
 
            string decryptedData;
         
-            // buraya gizli key'inizi yazmalısınız.
+           
         
             using (var rsa = new RSACryptoServiceProvider(1024))
             {
@@ -55,13 +55,13 @@ namespace CryptoService.Classes
                 {
                     
 
-                    // server decrypting data with private key                    
+                                        
                     rsa.ImportParameters(_privatekey);
 
                     var resultBytes = Convert.FromBase64String(request.Data);
                     var decryptedBytes = rsa.Decrypt(resultBytes, true);
                      decryptedData = Encoding.Unicode.GetString(decryptedBytes);
-                  //  return decryptedData.ToString();
+                  
 
                 }
                 finally

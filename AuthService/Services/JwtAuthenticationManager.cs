@@ -62,39 +62,6 @@ namespace AuthService
 
         }
 
-        //public bool ValidateToken(string token)
-        //{
-        //    if (token == null)
-        //        return false;
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.UTF8.GetBytes(_configuration["JwtToken:SecretKey"]);
-        //    try
-        //    {
-        //        tokenHandler.ValidateToken(token, new TokenValidationParameters
-        //        {
-        //            ValidateIssuerSigningKey = true,
-        //            IssuerSigningKey = new SymmetricSecurityKey(key),
-        //            ValidateIssuer = false,
-        //            ValidateAudience = false,
-        //            // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-        //            ClockSkew = TimeSpan.Zero
-        //        }, out SecurityToken validatedToken);
-        //        var jwtToken = (JwtSecurityToken)validatedToken;
-        //        if (jwtToken.Claims.Any(x => x.Type == "key"))
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-
-        //}
+        
     }
 }
